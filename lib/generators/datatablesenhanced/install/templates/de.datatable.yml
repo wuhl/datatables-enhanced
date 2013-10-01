@@ -1,0 +1,22 @@
+# de.datatable.yml
+
+de:
+  datatable:
+    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
+    abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
+    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
+    abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
+    datatable: "de_date"
+    sProcessing: "Bitte warten..."
+    sLengthMenu: "_MENU_ Einträge anzeigen"
+    sZeroRecords:  "Keine Einträge vorhanden."
+    sInfo:         "_START_ bis _END_ von _TOTAL_ Einträge"
+    sInfoEmpty:    "0 bis 0 von 0 Einträgen"
+    sInfoFiltered: "(gefiltert von _MAX_ Einträgen)"
+    sInfoPostFix:  ""
+    sSearch:       "Suchen"
+    sUrl:          ""
+    sFirst:    "Erster"
+    sPrevious: "Zurück"
+    sNext:     "Nächster"
+    sLast:     "Letzter"

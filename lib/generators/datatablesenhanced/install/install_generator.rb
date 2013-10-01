@@ -41,12 +41,19 @@ module Datatablesenhanced
       end
 
       def uninstall_turbolink
-        insert_into_file "Gemfile", :before => "gem \'turbolinks\'" do
-          "# "
-        end
+        gsub_file "Gemfile", "gem \'turbolinks\'", "# gem \'turbolinks\'"
         gsub_file "app/assets/javascripts/application.js", "//= require turbolinks\n", ""
         gsub_file "app/views/layouts/application.html.erb", ", \"data-turbolinks-track\" => true", ""
       end
+      
+      def install_langauge_file
+        if File.exist? "config/locales/#{language_type}"
+          copy_file "de.datatable.yml", "config/locales/#{language_type}/de.datatable.yml"
+        else
+          copy_file "de.datatable.yml", "config/locales/de.datatable.yml"
+        end
+      end
+      
     end
   end
 end
