@@ -14,15 +14,13 @@ module Datatablesenhanced
       # end
 
       def add_javascripts
-        insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs\n" do 
+        insert_into_file "app/assets/javascripts/application.js", :after => "//= require jquery_ujs\n" do
           "//= require dataTables/jquery.dataTables\n"
         end
       end
 
       def add_stylesheets
-        insert_into_file "app/assets/stylesheets/application.css", :after => " *= require_self\n" do 
-          " *= require jquery.ui.core\n" +
-          " *= require jquery.ui.theme\n" +
+        insert_into_file "app/assets/stylesheets/application.css", :after => " *= require_self\n" do
           " *= require dataTables/src/demo_table_jui\n"
         end
       end
@@ -30,10 +28,10 @@ module Datatablesenhanced
       def change_table_in_index
         engine = options[:template_engine]
         if File.exist? "lib/templates/#{engine}/scaffold/index.html.#{engine}"
-          insert_into_file "lib/templates/#{engine}/scaffold/index.html.#{engine}", :after => "<table" do 
+          insert_into_file "lib/templates/#{engine}/scaffold/index.html.#{engine}", :after => "<table" do
             " class=\"datatable display\""
           end
-        end 
+        end
       end
 
       def copy_datatable_js
@@ -45,8 +43,8 @@ module Datatablesenhanced
         gsub_file "app/assets/javascripts/application.js", "//= require turbolinks\n", ""
         gsub_file "app/views/layouts/application.html.erb", ", \"data-turbolinks-track\" => true", ""
       end
-      
-      def install_langauge_file
+
+      def install_language_file
         if File.exist? "config/locales/#{language_type}"
           copy_file "de.datatable.yml", "config/locales/#{language_type}/de.datatable.yml"
         else
@@ -54,28 +52,31 @@ module Datatablesenhanced
         end
       end
 
-      def install_helper_function
-        if File.exist? "app/helpers/helper.rb"
-          insert_into_file "app/helpers/helper.rb", :before => "  module_function" do
-            "  def set_datatable_params\n" +
-            "    gon.oLanguage = {\n" +
-            "      :sProcessing   => t('datatable.sProcessing'),\n" +
-            "      :sLengthMenu   => t('datatable.sLengthMenu'),\n" +
-            "      :sZeroRecords  => t('datatable.sZeroRecords'),\n" +
-            "      :sInfo         => t('datatable.sInfo'),\n" +
-            "      :sInfoEmpty    => t('datatable.sInfoEmpty'),\n" +
-            "      :sInfoFiltered => t('datatable.sInfoFiltered'),\n" +
-            "      :sInfoPostFix  => t('datatable.sInfoPostFix'),\n" +
-            "      :sSearch       => t('datatable.sSearch'),\n" +
-            "      :sUrl          => t('datatable.sUrl'),\n" +
-            "      :oPaginate => {\n" +
-            "        :sFirst    => t('datatable.sFirst'),\n" +
-            "        :sPrevious => t('datatable.sPrevious'),\n" +
-            "        :sNext     => t('datatable.sNext'),\n" +
-            "        :sLast     => t('datatable.sLast'),\n" +
+      def install_set_datatable_params_and_set_gon
+        if File.exist? "lib/templates/rails/scaffold_controller/controller.rb"
+            insert_into_file "lib/templates/rails/scaffold_controller/controller.rb", :after => "  private\n" do
+            "    def set_datatable_params\n" +
+            "      gon.oLanguage = {\n" +
+            "        :sProcessing   => t('datatable.sProcessing'),\n" +
+            "        :sLengthMenu   => t('datatable.sLengthMenu'),\n" +
+            "        :sZeroRecords  => t('datatable.sZeroRecords'),\n" +
+            "        :sInfo         => t('datatable.sInfo'),\n" +
+            "        :sInfoEmpty    => t('datatable.sInfoEmpty'),\n" +
+            "        :sInfoFiltered => t('datatable.sInfoFiltered'),\n" +
+            "        :sInfoPostFix  => t('datatable.sInfoPostFix'),\n" +
+            "        :sSearch       => t('datatable.sSearch'),\n" +
+            "        :sUrl          => t('datatable.sUrl'),\n" +
+            "        :oPaginate => {\n" +
+            "          :sFirst    => t('datatable.sFirst'),\n" +
+            "          :sPrevious => t('datatable.sPrevious'),\n" +
+            "          :sNext     => t('datatable.sNext'),\n" +
+            "          :sLast     => t('datatable.sLast'),\n" +
+            "        }\n" +
             "      }\n" +
-            "    }\n" +
-            "  end\n\n"
+            "    end\n\n" +
+            "    def set_gon\n" +
+            "      gon.test = "Test\n" +
+            "    end\n\n"
           end
         end
       end
@@ -90,9 +91,15 @@ module Datatablesenhanced
           insert_into_file "lib/templates/rails/scaffold_controller/controller.rb", :after => "def index\n" do
             "    set_datatable_params\n"
           end
+          insert_into_file "lib/templates/rails/scaffold_controller/controller.rb", :after => "def new\n" do
+            "    set_gon\n"
+          end
+          insert_into_file "lib/templates/rails/scaffold_controller/controller.rb", :after => "def edit\n" do
+            "    set_gon\n"
+          end
         end
       end
-      
+
     end
   end
 end
